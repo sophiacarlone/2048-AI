@@ -4,8 +4,7 @@
 #include <stack>
 using namespace std;
 
-// Built around max tree (?) 
-// 
+// Built around max tree
 
 int ids(int maxDepth, Grid start, Grid goal){
     for (int depth = 0; depth <= maxDepth; depth++){
@@ -23,9 +22,9 @@ int ids(int maxDepth, Grid start, Grid goal){
                     return 0;
                 }
             }
-            int highestBlock = top.maxBlock(); //not real function yet, meant to get highest value block
-            for (int i = 0; i < refVector.size(); i++){
-                if (/*refVector[i].maxBlock > top.maxBlock*/){
+            int highScore = top.score; //not real function yet, meant to get highest value block
+            for (int i = 0; i < refVector.size(); i++){ // Fix vector initialization
+                if (refVector[i].score > highScore){
                     Grid temp = top;
                     dfs.push(temp);
                 }
