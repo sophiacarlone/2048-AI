@@ -4,6 +4,9 @@
 #include <stack>
 using namespace std;
 
+// Built around max tree (?) 
+// 
+
 int ids(int maxDepth, Grid start, Grid goal){
     for (int depth = 0; depth <= maxDepth; depth++){
         vector<Grid> refVector();
@@ -13,10 +16,12 @@ int ids(int maxDepth, Grid start, Grid goal){
         while(!dfs.empty()){
             Grid top = dfs.top();
             dfs.pop();
-            if (top.equals(goal)){ //wrong, make goal test check if there is a 2048 block
-                cout << "2048 YIPEE";
-                top.print();
-                return 0;
+            for (int i = 0; i < 16; i++){
+                if (top.blocks[i].num == 2048){ 
+                    cout << "2048 YIPEE";
+                    top.print();
+                    return 0;
+                }
             }
             int highestBlock = top.maxBlock(); //not real function yet, meant to get highest value block
             for (int i = 0; i < refVector.size(); i++){

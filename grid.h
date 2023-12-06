@@ -19,6 +19,10 @@ class Block
 
 	// getters and setters
 	void remove();
+
+	// equal function
+	friend bool operator==( Block const&, Block const& );
+	friend bool operator!=( Block const&, Block const& );
 };
 
 class Grid
@@ -38,14 +42,25 @@ class Grid
 	void makeAllCombinable();
 
 	// move functions
-	bool moveLeft();
-	bool moveRight();
-	bool moveUp();
-	bool moveDown();
+	Grid moveLeft();
+	Grid moveRight();
+	Grid moveUp();
+	Grid moveDown();
+
+	// value for IDS
+	int value();
 
 	// print function
 	void print_to_stream( std::ostream & );
 	void print();
+
+	// equal function
+	friend bool operator==( Grid const&, Grid const& );
+	friend bool operator!=( Gird const&, Grid const& );
+
+	// comparison functions
+	friend bool operator>( Grid const&, Grid const& );
+	friend bool operator<( Grid const&, Grid const& );
 };
 
 #endif
