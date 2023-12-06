@@ -157,7 +157,7 @@ Grid Grid::moveLeft()
 	// move blocks from col 2-4
 	for ( int i = 1; i < 16; i++ )
 	{
-		if ( ( i%4 == 0 ) || blocks[i].isEmpty )
+		if ( ( i%4 == 0 ) || g.blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -166,16 +166,16 @@ Grid Grid::moveLeft()
 			if ( j <= i % 4 )
 			{
 				// if block to the left is empty, move it left and delete old block
-				if ( blocks[i-j].isEmpty )
+				if ( g.blocks[i-j].isEmpty )
 				{
 					g.blocks[i-j] = Block( g.blocks[i-j+1].num );
 					g.blocks[i-j+1].remove();
 					g.notMoved = false;
 				}
 				// if block to the left is not empty, check if numbers match and combine
-				else if ( ( blocks[i-j].num == blocks[i-j+1].num ) && blocks[i-j].notCombined && blocks[i-j+1].notCombined )
+				else if ( ( g.blocks[i-j].num == g.blocks[i-j+1].num ) && g.blocks[i-j].notCombined && g.blocks[i-j+1].notCombined )
 				{
-					g.blocks[i-j] = Block( blocks[i-j+1].num * 2, false );
+					g.blocks[i-j] = Block( g.blocks[i-j+1].num * 2, false );
 					g.score += blocks[i-j].num;
 					g.blocks[i-j+1].remove();
 					g.notMoved = false;
@@ -193,12 +193,12 @@ Grid Grid::moveRight()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = (*this)
+	Grid g = (*this);
 
 	// move blocks from col 3-1
 	for ( int i = 14; i > -1; i-- )
 	{
-		if ( ( i%4 == 3 ) || blocks[i].isEmpty )
+		if ( ( i%4 == 3 ) || g.blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -207,16 +207,16 @@ Grid Grid::moveRight()
 			if ( (4-j) > i % 4 )
 			{
 				// if block to the left is empty, move it left and delete old block
-				if ( blocks[i+j].isEmpty )
+				if ( g.blocks[i+j].isEmpty )
 				{
-					g.blocks[i+j] = Block( blocks[i+j-1].num );
+					g.blocks[i+j] = Block( g.blocks[i+j-1].num );
 					g.blocks[i+j-1].remove();
 					g.notMoved = false;
 				}
 				// if block to the left is not empty, check if numbers match and combine
-				else if ( ( blocks[i+j].num == blocks[i+j-1].num ) && blocks[i+j].notCombined && blocks[i+j-1].notCombined )
+				else if ( ( g.blocks[i+j].num == g.blocks[i+j-1].num ) && g.blocks[i+j].notCombined && g.blocks[i+j-1].notCombined )
 				{
-					g.blocks[i+j] = Block( blocks[i+j-1].num * 2, false );
+					g.blocks[i+j] = Block( g.blocks[i+j-1].num * 2, false );
 					g.score += blocks[i+j].num;
 					g.blocks[i+j-1].remove();
 					g.notMoved = false;
@@ -229,7 +229,7 @@ Grid Grid::moveRight()
 }
 
 /* move blocks up */
-bool Grid::moveUp()
+Grid Grid::moveUp()
 {
 	makeAllCombinable();
 	bool notMoved = true;
@@ -238,7 +238,7 @@ bool Grid::moveUp()
 	// move blocks from row 2-4
 	for ( int i = 4; i < 16; i++ )
 	{
-		if ( blocks[i].isEmpty )
+		if ( g.blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -247,17 +247,17 @@ bool Grid::moveUp()
 			if ( i-4*j >= 0 )
 			{
 				// if block above is empty, move it left and delete old block
-				if ( blocks[i-j*4].isEmpty )
+				if ( g.blocks[i-j*4].isEmpty )
 				{
-					g.blocks[i-j*4] = Block( blocks[i-(j-1)*4].num );
+					g.blocks[i-j*4] = Block( g.blocks[i-(j-1)*4].num );
 					g.blocks[i-(j-1)*4].remove();
 					g.notMoved = false;
 				}
 				// if block above is not empty, check if numbers match and combine
-				else if ( ( blocks[i-j*4].num == blocks[i-(j-1)*4].num ) && blocks[i-j*4].notCombined && blocks[i-(j-1)*4].notCombined )
+				else if ( ( g.blocks[i-j*4].num == g.blocks[i-(j-1)*4].num ) && g.blocks[i-j*4].notCombined && g.blocks[i-(j-1)*4].notCombined )
 				{
-					g.blocks[i-j*4] = Block( blocks[i-(j-1)*4].num * 2, false );
-					g.score += blocks[i-j*4].num;
+					g.blocks[i-j*4] = Block( g.blocks[i-(j-1)*4].num * 2, false );
+					g.score += g.blocks[i-j*4].num;
 					g.blocks[i-(j-1)*4].remove();
 					g.notMoved = false;
 				}
@@ -269,7 +269,7 @@ bool Grid::moveUp()
 }
 
 /* move blocks down */
-bool Grid::moveDown()
+Grid Grid::moveDown()
 {
 	makeAllCombinable();
 	bool notMoved = true;
@@ -278,7 +278,7 @@ bool Grid::moveDown()
 	// move blocks from row 3-1
 	for ( int i = 11; i > -1; i-- )
 	{
-		if ( blocks[i].isEmpty )
+		if ( g.blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -287,16 +287,16 @@ bool Grid::moveDown()
 			if ( i+j*4 < 16 )
 			{
 				// if block below is empty, move it left and delete old block
-				if ( blocks[i+j*4].isEmpty )
+				if ( g.blocks[i+j*4].isEmpty )
 				{
-					g.blocks[i+j*4] = Block( blocks[i+(j-1)*4].num );
+					g.blocks[i+j*4] = Block( g.blocks[i+(j-1)*4].num );
 					g.blocks[i+(j-1)*4].remove();
 					g.notMoved = false;
 				}
 				// if block below is not empty, check if numbers match and combine
-				else if ( ( blocks[i+j*4].num == blocks[i+(j-1)*4].num ) && blocks[i+j*4].notCombined && blocks[i+(j-1)*4].notCombined )
+				else if ( ( g.blocks[i+j*4].num == g.blocks[i+(j-1)*4].num ) && g.blocks[i+j*4].notCombined && g.blocks[i+(j-1)*4].notCombined )
 				{
-					g.blocks[i+j*4] = Block( blocks[i+(j-1)*4].num * 2, false );
+					g.blocks[i+j*4] = Block( g.blocks[i+(j-1)*4].num * 2, false );
 					g.score += blocks[i+j*4].num;
 					g.blocks[i+(j-1)*4].remove();
 					g.notMoved = false;
@@ -399,7 +399,7 @@ bool gridMoveable( Grid g, char d )
 }
 
 /* finds value of a grid for IDS */
-int Grid::value()
+int Grid::value() const
 {
     return 2*(blocks[0].num + blocks[3].num + blocks[12].num + blocks[15].num) + blocks[1].num + blocks[2].num + blocks[4].num
 		+ blocks[7].num + blocks[8].num + blocks[11].num + blocks[13].num + blocks[14].num + 1/2*(blocks[10].num + blocks[9].num + blocks[5].num + blocks[6].num );
@@ -411,9 +411,7 @@ bool operator==( Grid const &g1, Grid const &g2 )
 	for ( int i = 0; i < 16; i++ )
 		if ( !( g1.blocks[i] == g2.blocks[i]) )
 			return false;
-	if ( g1.score == g2.score )
-		return true;
-	return false;
+	return g1.score == g2.score ? true : false;
 }
 
 bool operator!=( Grid const &g1, Grid const &g2 )
@@ -421,9 +419,7 @@ bool operator!=( Grid const &g1, Grid const &g2 )
 	for ( int i = 0; i < 16; i++ )
 		if ( g1.blocks[i] != g2.blocks[i] )
 			return true;
-	if ( g1.score == g2.score )
-		return false;
-	return true;
+	return g1.score != g2.score ? true : false;
 }
 
 /* gt/lt operator */
@@ -432,8 +428,8 @@ bool operator>( Grid const &g1, Grid const &g2 )
 	return g1.value() > g2.value() ? true : false;
 }
 
-boo operator<( Grid const &g1, Grid const &g2 )
+bool operator<( Grid const &g1, Grid const &g2 )
 {
-	return g1.value < g2.value ? true : false;
+	return g1.value() < g2.value() ? true : false;
 }
 

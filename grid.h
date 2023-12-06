@@ -32,6 +32,8 @@ class Grid
 	Block blocks[16];
 	// score of game
 	int score;
+	// move check
+	bool notMoved;
 
 	// constructors
 	Grid();
@@ -48,7 +50,7 @@ class Grid
 	Grid moveDown();
 
 	// value for IDS
-	int value();
+	int value() const;
 
 	// print function
 	void print_to_stream( std::ostream & );
@@ -56,7 +58,7 @@ class Grid
 
 	// equal function
 	friend bool operator==( Grid const&, Grid const& );
-	friend bool operator!=( Gird const&, Grid const& );
+	friend bool operator!=( Grid const&, Grid const& );
 
 	// comparison functions
 	friend bool operator>( Grid const&, Grid const& );
