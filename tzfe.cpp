@@ -73,6 +73,10 @@ Grid::Grid()
 		j = rand() % 16;
 	blocks[i] = Block( 2 );
 	blocks[j] = Block( 2 );
+
+	score = 0;
+	iteration = 0;
+	notMoved = true;
 }
 
 /* constructor for new nodes */
@@ -80,6 +84,10 @@ Grid::Grid( const Grid &g )
 {
 	for ( int i = 0; i < 16; i++ )
 		blocks[i] = g.blocks[i];
+	
+	score = g.score;
+	iteration = g.iteration;
+	notMoved = true;
 }
 
 /* add a new 2 block to the grid
@@ -152,7 +160,7 @@ Grid Grid::moveLeft()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = (*this);
+	Grid g = Grid( (*this) );
 
 	// move blocks from col 2-4
 	for ( int i = 1; i < 16; i++ )
@@ -184,7 +192,8 @@ Grid Grid::moveLeft()
 			}
 		}
 	}
-	// returns new grd with moved blocks
+	// increase iteration and return new grid object
+	g.iteration++;
 	return g;
 }
 
@@ -193,7 +202,7 @@ Grid Grid::moveRight()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = (*this);
+	Grid g = Grid( (*this) );
 
 	// move blocks from col 3-1
 	for ( int i = 14; i > -1; i-- )
@@ -225,6 +234,8 @@ Grid Grid::moveRight()
 			}
 		}
 	}
+	// increase iteration and return new grid object
+	g.iteration++;
 	return g;
 }
 
@@ -233,7 +244,7 @@ Grid Grid::moveUp()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = (*this);
+	Grid g = Grid( (*this) );
 
 	// move blocks from row 2-4
 	for ( int i = 4; i < 16; i++ )
@@ -265,6 +276,8 @@ Grid Grid::moveUp()
 			}
 		}
 	}
+	// increase iteration and return new grid object
+	g.iteration++;
 	return g;
 }
 
@@ -273,7 +286,7 @@ Grid Grid::moveDown()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = (*this);
+	Grid g = Grid( (*this) );
 
 	// move blocks from row 3-1
 	for ( int i = 11; i > -1; i-- )
@@ -305,7 +318,26 @@ Grid Grid::moveDown()
 			}
 		}
 	}
+	// increase iteration and return new grid object
+	g.iteration++;
 	return g;
+}
+
+/* finds max index of the grid */
+int Grid::maxVal()
+{
+	int n = 0;
+	for ( int i = 1; i < 16; i++ )
+		if ( blocks[n].num < blocks[i].num )
+			n = i;
+	return n;
+}
+
+/* finds value of a grid for IDS */
+int Grid::value() const
+{
+    return 2*(blocks[0].num + blocks[3].num + blocks[12].num + blocks[15].num) + blocks[1].num + blocks[2].num + blocks[4].num
+		+ blocks[7].num + blocks[8].num + blocks[11].num + blocks[13].num + blocks[14].num + 1/2*(blocks[10].num + blocks[9].num + blocks[5].num + blocks[6].num );
 }
 
 /* print function */
@@ -396,13 +428,6 @@ bool gridMoveable( Grid g, char d )
 	// return 1 if all blocks are unable to be moved
 	if ( n == 4 ) return false;
 	return true;
-}
-
-/* finds value of a grid for IDS */
-int Grid::value() const
-{
-    return 2*(blocks[0].num + blocks[3].num + blocks[12].num + blocks[15].num) + blocks[1].num + blocks[2].num + blocks[4].num
-		+ blocks[7].num + blocks[8].num + blocks[11].num + blocks[13].num + blocks[14].num + 1/2*(blocks[10].num + blocks[9].num + blocks[5].num + blocks[6].num );
 }
 
 /* equality operator */

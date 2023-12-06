@@ -32,6 +32,8 @@ class Grid
 	Block blocks[16];
 	// score of game
 	int score;
+	// iteration number of grid
+	int iteration;
 	// move check
 	bool notMoved;
 
@@ -51,6 +53,9 @@ class Grid
 
 	// value for IDS
 	int value() const;
+
+	// return index of maxval
+	int maxVal();
 
 	// print function
 	void print_to_stream( std::ostream & );
