@@ -19,6 +19,9 @@ class Block
 
 	// getters and setters
 	void remove();
+
+	// equal function
+	friend bool operator==( Block const &b1, Block const &b2 );
 };
 
 class Grid
@@ -46,6 +49,9 @@ class Grid
 	// print function
 	void print_to_stream( std::ostream & );
 	void print();
+
+	// equal function
+	friend bool operator==( Grid const &g1, Grid const &g2 );
 };
 
 #endif

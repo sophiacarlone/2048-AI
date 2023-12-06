@@ -48,6 +48,14 @@ void Block::remove()
 	isEmpty = true;
 }
 
+/* equality operator */
+bool operator==( Block const &b1, Block const &b2 )
+{
+	if ( b1.num == b2.num )
+		return true;
+	return false;
+}
+
 ////////// GRID FUNCTIONS //////////////
 /* default constructor */
 Grid::Grid()
@@ -392,4 +400,15 @@ bool gridMoveable( Grid g, char d )
 	// return 1 if all blocks are unable to be moved
 	if ( n == 4 ) return false;
 	return true;
+}
+
+/* equality operator */
+bool operator==( Grid const &g1, Grid const &g2 )
+{
+	for ( int i = 0; i < 16; i++ )
+		if ( !( g1.blocks[i] == g2.blocks[i]) )
+			return false;
+	if ( g1.score == g2.score )
+		return true;
+	return false;
 }
