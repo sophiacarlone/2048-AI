@@ -1,5 +1,7 @@
 #include <iostream>
 #include "grid.h"
+#include "tree.hpp"
+#include "ids.hpp"
 using namespace std;
 
 int main()
@@ -9,27 +11,13 @@ int main()
 
 	Grid *g = new Grid();
 	g->print();
-	g->print_to_stream( test );
 
-	g = g->moveLeft();
-	cout << "moving left..." << endl;
-	g->print();
-	g->print_to_stream( test );
+	cout << "making root node" << endl;
 
-	g = g->moveUp();
-	cout << "moving up..." << endl;
-	g->print();
-	g->print_to_stream( test );
-
-	g = g->moveRight();
-	cout << "moving right..." << endl;
-	g->print();
-	g->print_to_stream( test );
-
-	g = g->moveDown();
-	cout << "moving down..." << endl;
-	g->print();
-	g->print_to_stream( test );
+	tree_node *t = new tree_node( g );
+	pair<int,char> move = chooseMove( t, t->root()->iteration, test );
+	cout << "choose direction " << move.second << endl;
+	cout << "max direction value " << move.first << endl;
 
 	return 0;
 }
