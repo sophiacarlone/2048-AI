@@ -40,16 +40,19 @@ class Grid
 	// constructors
 	Grid();
 	Grid( const Grid& );
-	
+	// destructor
+	~Grid();
+
 	// helper functions
 	void addBlock( char );
+	Grid *addBlock( char, int );
 	void makeAllCombinable();
 
 	// move functions
-	Grid moveLeft();
-	Grid moveRight();
-	Grid moveUp();
-	Grid moveDown();
+	Grid *moveLeft();
+	Grid *moveRight();
+	Grid *moveUp();
+	Grid *moveDown();
 
 	// value for IDS
 	int value() const;

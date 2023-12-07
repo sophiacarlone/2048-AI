@@ -7,7 +7,7 @@ using namespace std;
 
 #define swap(a,b) ((a) ^= (b), (b) ^= (a), (a) ^= (b))
 
-bool gridMoveable( Grid, char );
+bool gridMoveable( Grid *, char );
 
 //////// BLOCK FUNCTIONS ////////////
 /* default constructor */
@@ -90,11 +90,14 @@ Grid::Grid( const Grid &g )
 	notMoved = true;
 }
 
+/* destructor */
+Grid::~Grid(){}
+
 /* add a new 2 block to the grid
  * l for left, r for right, u for up, and d for down */
 void Grid::addBlock( char d )
 {
-	if ( !gridMoveable((*this),d) )
+	if ( !gridMoveable(this,d) )
 	{
 		// do something else later
 		cout << "Game over!\n";
@@ -148,6 +151,44 @@ void Grid::addBlock( char d )
 			}
 }
 
+/* similar to above, but with a specific index to add to */
+Grid *Grid::addBlock( char d, int i )
+{
+	Grid *g = new Grid( (*this) );
+
+	if ( d == 'l' )
+	{
+		if ( blocks[i*4+3].isEmpty )
+			g->blocks[i*4+3] = Block( 2 );
+		else return NULL;
+	}
+
+	if ( d == 'r' )
+	{
+		if ( blocks[i*4].isEmpty )
+			g->blocks[i*4] = Block( 2 );
+		else return NULL;
+	}
+
+	if ( d == 'u' )
+	{
+		if ( blocks[i+12].isEmpty )
+			g->blocks[i+12] = Block( 2 );
+		else return NULL;
+	}
+
+	if ( d == 'd' )
+	{
+		if ( blocks[i].isEmpty )
+			g->blocks[i] = Block( 2 );
+		else return NULL;
+	}
+
+	g->iteration++;
+	return g;
+}
+	
+
 /* makes all blocks in the grid combinable */
 void Grid::makeAllCombinable()
 {
@@ -156,16 +197,16 @@ void Grid::makeAllCombinable()
 }
 
 /* move blocks left */
-Grid Grid::moveLeft()
+Grid *Grid::moveLeft()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = Grid( (*this) );
+	Grid *g = new Grid( (*this) );
 
 	// move blocks from col 2-4
 	for ( int i = 1; i < 16; i++ )
 	{
-		if ( ( i%4 == 0 ) || g.blocks[i].isEmpty )
+		if ( ( i%4 == 0 ) || g->blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -174,40 +215,43 @@ Grid Grid::moveLeft()
 			if ( j <= i % 4 )
 			{
 				// if block to the left is empty, move it left and delete old block
-				if ( g.blocks[i-j].isEmpty )
+				if ( g->blocks[i-j].isEmpty )
 				{
-					g.blocks[i-j] = Block( g.blocks[i-j+1].num );
-					g.blocks[i-j+1].remove();
-					g.notMoved = false;
+					g->blocks[i-j] = Block( g->blocks[i-j+1].num );
+					g->blocks[i-j+1].remove();
+					g->notMoved = false;
 				}
 				// if block to the left is not empty, check if numbers match and combine
-				else if ( ( g.blocks[i-j].num == g.blocks[i-j+1].num ) && g.blocks[i-j].notCombined && g.blocks[i-j+1].notCombined )
+				else if ( ( g->blocks[i-j].num == g->blocks[i-j+1].num ) && g->blocks[i-j].notCombined && g->blocks[i-j+1].notCombined )
 				{
-					g.blocks[i-j] = Block( g.blocks[i-j+1].num * 2, false );
-					g.score += blocks[i-j].num;
-					g.blocks[i-j+1].remove();
-					g.notMoved = false;
+					g->blocks[i-j] = Block( g->blocks[i-j+1].num * 2, false );
+					g->score += blocks[i-j].num;
+					g->blocks[i-j+1].remove();
+					g->notMoved = false;
 				}
 				else break;
 			}
 		}
 	}
+	// check if grid has moved and returns null if not
+	if ( g->notMoved ) 
+		return NULL;
 	// increase iteration and return new grid object
-	g.iteration++;
+	g->iteration++;
 	return g;
 }
 
 /* move blocks right */
-Grid Grid::moveRight()
+Grid *Grid::moveRight()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = Grid( (*this) );
+	Grid *g = new Grid( (*this) );
 
 	// move blocks from col 3-1
 	for ( int i = 14; i > -1; i-- )
 	{
-		if ( ( i%4 == 3 ) || g.blocks[i].isEmpty )
+		if ( ( i%4 == 3 ) || g->blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -216,40 +260,43 @@ Grid Grid::moveRight()
 			if ( (4-j) > i % 4 )
 			{
 				// if block to the left is empty, move it left and delete old block
-				if ( g.blocks[i+j].isEmpty )
+				if ( g->blocks[i+j].isEmpty )
 				{
-					g.blocks[i+j] = Block( g.blocks[i+j-1].num );
-					g.blocks[i+j-1].remove();
-					g.notMoved = false;
+					g->blocks[i+j] = Block( g->blocks[i+j-1].num );
+					g->blocks[i+j-1].remove();
+					g->notMoved = false;
 				}
 				// if block to the left is not empty, check if numbers match and combine
-				else if ( ( g.blocks[i+j].num == g.blocks[i+j-1].num ) && g.blocks[i+j].notCombined && g.blocks[i+j-1].notCombined )
+				else if ( ( g->blocks[i+j].num == g->blocks[i+j-1].num ) && g->blocks[i+j].notCombined && g->blocks[i+j-1].notCombined )
 				{
-					g.blocks[i+j] = Block( g.blocks[i+j-1].num * 2, false );
-					g.score += blocks[i+j].num;
-					g.blocks[i+j-1].remove();
-					g.notMoved = false;
+					g->blocks[i+j] = Block( g->blocks[i+j-1].num * 2, false );
+					g->score += blocks[i+j].num;
+					g->blocks[i+j-1].remove();
+					g->notMoved = false;
 				}
 				else break;
 			}
 		}
 	}
+	// check if grid has moved and returns null if not
+	if ( g->notMoved ) 
+		return NULL;
 	// increase iteration and return new grid object
-	g.iteration++;
+	g->iteration++;
 	return g;
 }
 
 /* move blocks up */
-Grid Grid::moveUp()
+Grid *Grid::moveUp()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = Grid( (*this) );
+	Grid *g = new Grid( (*this) );
 
 	// move blocks from row 2-4
 	for ( int i = 4; i < 16; i++ )
 	{
-		if ( g.blocks[i].isEmpty )
+		if ( g->blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -258,40 +305,43 @@ Grid Grid::moveUp()
 			if ( i-4*j >= 0 )
 			{
 				// if block above is empty, move it left and delete old block
-				if ( g.blocks[i-j*4].isEmpty )
+				if ( g->blocks[i-j*4].isEmpty )
 				{
-					g.blocks[i-j*4] = Block( g.blocks[i-(j-1)*4].num );
-					g.blocks[i-(j-1)*4].remove();
-					g.notMoved = false;
+					g->blocks[i-j*4] = Block( g->blocks[i-(j-1)*4].num );
+					g->blocks[i-(j-1)*4].remove();
+					g->notMoved = false;
 				}
 				// if block above is not empty, check if numbers match and combine
-				else if ( ( g.blocks[i-j*4].num == g.blocks[i-(j-1)*4].num ) && g.blocks[i-j*4].notCombined && g.blocks[i-(j-1)*4].notCombined )
+				else if ( ( g->blocks[i-j*4].num == g->blocks[i-(j-1)*4].num ) && g->blocks[i-j*4].notCombined && g->blocks[i-(j-1)*4].notCombined )
 				{
-					g.blocks[i-j*4] = Block( g.blocks[i-(j-1)*4].num * 2, false );
-					g.score += g.blocks[i-j*4].num;
-					g.blocks[i-(j-1)*4].remove();
-					g.notMoved = false;
+					g->blocks[i-j*4] = Block( g->blocks[i-(j-1)*4].num * 2, false );
+					g->score += g->blocks[i-j*4].num;
+					g->blocks[i-(j-1)*4].remove();
+					g->notMoved = false;
 				}
 				else break;
 			}
 		}
 	}
+	// check if grid has moved and returns null if not
+	if ( g->notMoved ) 
+		return NULL;
 	// increase iteration and return new grid object
-	g.iteration++;
+	g->iteration++;
 	return g;
 }
 
 /* move blocks down */
-Grid Grid::moveDown()
+Grid *Grid::moveDown()
 {
 	makeAllCombinable();
 	bool notMoved = true;
-	Grid g = Grid( (*this) );
+	Grid *g = new Grid( (*this) );
 
 	// move blocks from row 3-1
 	for ( int i = 11; i > -1; i-- )
 	{
-		if ( g.blocks[i].isEmpty )
+		if ( g->blocks[i].isEmpty )
 			continue;
 
 		for ( int j = 1; j < 4; j++ )
@@ -300,26 +350,29 @@ Grid Grid::moveDown()
 			if ( i+j*4 < 16 )
 			{
 				// if block below is empty, move it left and delete old block
-				if ( g.blocks[i+j*4].isEmpty )
+				if ( g->blocks[i+j*4].isEmpty )
 				{
-					g.blocks[i+j*4] = Block( g.blocks[i+(j-1)*4].num );
-					g.blocks[i+(j-1)*4].remove();
-					g.notMoved = false;
+					g->blocks[i+j*4] = Block( g->blocks[i+(j-1)*4].num );
+					g->blocks[i+(j-1)*4].remove();
+					g->notMoved = false;
 				}
 				// if block below is not empty, check if numbers match and combine
-				else if ( ( g.blocks[i+j*4].num == g.blocks[i+(j-1)*4].num ) && g.blocks[i+j*4].notCombined && g.blocks[i+(j-1)*4].notCombined )
+				else if ( ( g->blocks[i+j*4].num == g->blocks[i+(j-1)*4].num ) && g->blocks[i+j*4].notCombined && g->blocks[i+(j-1)*4].notCombined )
 				{
-					g.blocks[i+j*4] = Block( g.blocks[i+(j-1)*4].num * 2, false );
-					g.score += blocks[i+j*4].num;
-					g.blocks[i+(j-1)*4].remove();
-					g.notMoved = false;
+					g->blocks[i+j*4] = Block( g->blocks[i+(j-1)*4].num * 2, false );
+					g->score += blocks[i+j*4].num;
+					g->blocks[i+(j-1)*4].remove();
+					g->notMoved = false;
 				}
 				else break;
 			}
 		}
 	}
+	// check if grid has moved and returns null if not
+	if ( g->notMoved ) 
+		return NULL;
 	// increase iteration and return new grid object
-	g.iteration++;
+	g->iteration++;
 	return g;
 }
 
@@ -400,29 +453,29 @@ void Grid::print()
 }
 
 /* check if more blocks are able to be added to the grid */
-bool gridMoveable( Grid g, char d )
+bool gridMoveable( Grid *g, char d )
 {
 	int n = 0;
 	
 	// increment n is a block is unable to be moved
 	if ( d == 'l' )
 		for ( int i = 0; i < 4; i ++ )
-			if ( !g.blocks[i*4+3].isEmpty )
+			if ( !g->blocks[i*4+3].isEmpty )
 				n++;
 
 	if ( d == 'r' )
 		for ( int i = 0; i < 4; i ++ )
-			if ( !g.blocks[i*4].isEmpty )
+			if ( !g->blocks[i*4].isEmpty )
 				n++;
 
 	if ( d == 'u' )
 		for ( int i = 0; i < 4; i ++ )
-			if ( !g.blocks[12+i].isEmpty )
+			if ( !g->blocks[12+i].isEmpty )
 				n++;
 
 	if ( d == 'd' )
 		for ( int i = 0; i < 4; i ++ )
-			if ( !g.blocks[i].isEmpty )
+			if ( !g->blocks[i].isEmpty )
 				n++;
 
 	// return 1 if all blocks are unable to be moved
