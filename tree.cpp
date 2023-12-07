@@ -8,34 +8,19 @@ void tree_node::MakeTree(bool udlr){
 }
 
 void tree_node::MakeChildrenUDLR(){
-
+    if(root_node.moveLeft() != NULL)
+        children.push_back(root_node.moveLeft());
+    if(root_node.moveRight() != NULL)
+        children.push_back(root_node.moveRight());
+    if(root_node.moveUp() != NULL)
+        children.push_back(root_node.moveUp());
+    if(root_node.moveDown() != NULL)
+        children.push_back(root_node.moveDown());
 }
 
 void tree_node::MakeChildrenRand2(){
-
-
-}
-
-
-
-
-    int looked_ahead = 0;
-    while(looked_ahead < STEPS_AHEAD){
-        for(int i = 0; i < 4; i++){
-            switch (i){
-                case 0:
-                    //right
-                    break;
-                case 1:
-                    //left
-                    break;
-                case 2:
-                    //up
-                    break;
-                case 3:
-                    //down
-                    break;
-            }
-        }
+    for(int i = 0; i < 4; i++){
+        Grid * temp = root_node.addBlock(i);
+        if(temp != NULL) children.push_back(temp); 
     }
 }
