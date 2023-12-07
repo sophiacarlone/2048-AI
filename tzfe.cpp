@@ -77,6 +77,7 @@ Grid::Grid()
 	score = 0;
 	iteration = 0;
 	notMoved = true;
+	dir = '\0';
 }
 
 /* constructor for new nodes */
@@ -88,6 +89,7 @@ Grid::Grid( const Grid &g )
 	score = g.score;
 	iteration = g.iteration;
 	notMoved = true;
+	dir = g.dir;
 }
 
 /* destructor */
@@ -95,14 +97,9 @@ Grid::~Grid(){}
 
 /* add a new 2 block to the grid
  * l for left, r for right, u for up, and d for down */
-void Grid::addBlock( char d )
+void Grid::addBlock( )
 {
-	if ( !gridMoveable(this,d) )
-	{
-		// do something else later
-		cout << "Game over!\n";
-		exit(1);
-	}
+	char d = this->dir;
 
 	// check if number has been added
 	bool added = false;
@@ -152,9 +149,10 @@ void Grid::addBlock( char d )
 }
 
 /* similar to above, but with a specific index to add to */
-Grid *Grid::addBlock( char d, int i )
+Grid *Grid::addBlock( int i )
 {
 	Grid *g = new Grid( (*this) );
+	char d = g->dir;
 
 	if ( d == 'l' )
 	{
@@ -238,6 +236,7 @@ Grid *Grid::moveLeft()
 		return NULL;
 	// increase iteration and return new grid object
 	g->iteration++;
+	g->dir = 'l';
 	return g;
 }
 
@@ -283,6 +282,7 @@ Grid *Grid::moveRight()
 		return NULL;
 	// increase iteration and return new grid object
 	g->iteration++;
+	g->dir = 'r';
 	return g;
 }
 
@@ -328,6 +328,7 @@ Grid *Grid::moveUp()
 		return NULL;
 	// increase iteration and return new grid object
 	g->iteration++;
+	g->dir = 'u';
 	return g;
 }
 
@@ -373,6 +374,7 @@ Grid *Grid::moveDown()
 		return NULL;
 	// increase iteration and return new grid object
 	g->iteration++;
+	g->dir = 'd';
 	return g;
 }
 

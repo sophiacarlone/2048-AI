@@ -36,6 +36,8 @@ class Grid
 	int iteration;
 	// move check
 	bool notMoved;
+	// direction spawned from
+	char dir;
 
 	// constructors
 	Grid();
@@ -44,8 +46,8 @@ class Grid
 	~Grid();
 
 	// helper functions
-	void addBlock( char );
-	Grid *addBlock( char, int );
+	void addBlock();
+	Grid *addBlock( int );
 	void makeAllCombinable();
 
 	// move functions
