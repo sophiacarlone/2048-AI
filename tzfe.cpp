@@ -146,6 +146,7 @@ void Grid::addBlock( )
 				blocks[loc[i]] = Block(2);
 				break;
 			}
+	iteration++;
 }
 
 /* similar to above, but with a specific index to add to */
@@ -153,6 +154,7 @@ Grid *Grid::addBlock( int i )
 {
 	Grid *g = new Grid( (*this) );
 	char d = g->dir;
+	g->iteration++;
 
 	if ( d == 'l' )
 	{
@@ -182,7 +184,6 @@ Grid *Grid::addBlock( int i )
 		else return NULL;
 	}
 
-	g->iteration++;
 	return g;
 }
 	
@@ -385,7 +386,7 @@ int Grid::maxVal()
 	for ( int i = 1; i < 16; i++ )
 		if ( blocks[n].num < blocks[i].num )
 			n = i;
-	return n;
+	return blocks[n].num;
 }
 
 /* finds value of a grid for IDS */

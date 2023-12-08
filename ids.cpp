@@ -22,14 +22,15 @@ pair<int,char> chooseMove( tree_node *t, int m, ostream &out) //m is current int
 		cout << "how the fuck u do that" << endl;
 		exit(1);
 	}
-	t->root()->print();
-	t->root()->print_to_stream( out );
+	//t->root()->print();
+	//t->root()->print_to_stream( out );
 
 	// deepest iteration children nodes
 	if ( t->root()->iteration == STEPS_AHEAD + m )
 	{
 		cout << "found leaf node!" << endl;
-		out << "found leaf node!" << endl;
+			t->root()->print();
+		//out << "found leaf node!" << endl;
 		return { t->root()->value(), t->root()->dir };
 	}
 
@@ -37,14 +38,15 @@ pair<int,char> chooseMove( tree_node *t, int m, ostream &out) //m is current int
 	else if ( t->root()->iteration % 2 == 1 )
 	{
 		cout << "found ULDR node: " << t->root()->dir << endl;
-		out << "found ULDR node: " << t->root()->dir << endl;
+			t->root()->print();
+		//out << "found ULDR node: " << t->root()->dir << endl;
 		int sum = 0;
 		t->MakeChildrenRand2();
 		if ( t->children.size() == 0 )
 			return { 0, t->root()->dir };
 		for ( int i = 0; i < t->children.size(); i++ )
 			sum += chooseMove( t->children[i], m, out ).first;
-		cout << "value at direction " << t->root()->dir << " : " << sum / t->children.size() << endl;
+		//cout << "value at direction " << t->root()->dir << " : " << sum / t->children.size() << endl;
 		return { sum / t->children.size(), t->root()->dir };
 	}
 
@@ -52,25 +54,23 @@ pair<int,char> chooseMove( tree_node *t, int m, ostream &out) //m is current int
 	else
 	{
 		cout << "found addBlock node" << endl;
-		out << "found addBlock node" << endl;
+			t->root()->print();
+		//out << "found addBlock node" << endl;
 		int max = 0;
-		char dir = '\0';
+		int child = 0;
 		t->MakeChildrenUDLR();
 		if ( t->children.size() == 0 )
-		{
-			cout << "seriously, what the fuck even\n";
-			exit(1);
-		}
+			return { 0, t->root()->dir };
 		for ( int i = 0; i < t->children.size(); i++ )
 		{
 			pair<int,char> temp = chooseMove( t->children[i], m, out );
 			if ( max < temp.first )
 			{
 				max = temp.first;
-				dir = temp.second;
+				child = i;
 			}
 		}
-		return { max, dir };
+		return { max, t->children[child]->root()->dir };
 	}
 }
 
