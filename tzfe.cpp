@@ -103,15 +103,16 @@ void Grid::addBlock( )
 
 	// check if number has been added
 	bool added = false;
-
 	// add in random order
 	int loc[4];
 	for ( int i = 0; i < 4; i++ )
 		loc[i] = i;
+
 	srand(time(NULL));
-	for ( int i = 0; i < 3; i++ )
+
+	for ( int i = 0; i < 4; i++ )
 	{
-		int j = rand() % 4 + i;
+		int j = rand() % 4; //+i
 		swap( loc[j], loc[i] );
 	}
 
@@ -125,11 +126,13 @@ void Grid::addBlock( )
 				
 	if ( d == 'r' )
 		for ( int i = 0; i < 4; i++ )
+		{
 			if ( blocks[loc[i]*4].isEmpty )
 			{
 				blocks[loc[i]*4] = Block(2);
 				break;
 			}
+		}
 				
 	if ( d == 'u' )
 		for ( int i = 0; i < 4; i++ )
@@ -146,6 +149,8 @@ void Grid::addBlock( )
 				blocks[loc[i]] = Block(2);
 				break;
 			}
+
+	iteration++;
 }
 
 /* similar to above, but with a specific index to add to */
@@ -153,6 +158,7 @@ Grid *Grid::addBlock( int i )
 {
 	Grid *g = new Grid( (*this) );
 	char d = g->dir;
+	g->iteration++;
 
 	if ( d == 'l' )
 	{
@@ -182,7 +188,6 @@ Grid *Grid::addBlock( int i )
 		else return NULL;
 	}
 
-	g->iteration++;
 	return g;
 }
 	
@@ -512,4 +517,3 @@ bool operator<( Grid const &g1, Grid const &g2 )
 {
 	return g1.value() < g2.value() ? true : false;
 }
-
