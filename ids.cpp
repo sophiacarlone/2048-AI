@@ -14,7 +14,7 @@ void ai2048()
 }
 
 /* returns integer value for choosing next best move for AI */
-pair<int,char> chooseMove( tree_node *t, int m, ostream &out)
+pair<int,char> chooseMove( tree_node *t, int m, ostream &out) //m is current interation
 {
 	// how u do this
 	if ( t == NULL )
