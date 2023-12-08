@@ -385,7 +385,7 @@ int Grid::maxVal()
 	for ( int i = 1; i < 16; i++ )
 		if ( blocks[n].num < blocks[i].num )
 			n = i;
-	return n;
+	return blocks[n].num;
 }
 
 /* finds value of a grid for IDS */

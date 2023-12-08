@@ -22,8 +22,8 @@ pair<int,char> chooseMove( tree_node *t, int m, ostream &out) //m is current int
 		cout << "how the fuck u do that" << endl;
 		exit(1);
 	}
-	t->root()->print();
-	t->root()->print_to_stream( out );
+	//t->root()->print();
+	//t->root()->print_to_stream( out );
 
 	// deepest iteration children nodes
 	if ( t->root()->iteration == STEPS_AHEAD + m )

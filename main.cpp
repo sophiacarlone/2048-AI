@@ -3,7 +3,7 @@
 #include "grid.h"
 #include "tree.hpp"
 #include "ids.hpp"
-#include "tzfe.cpp"
+//#include "tzfe.cpp"
 using namespace std;
 
 int main()
@@ -26,7 +26,7 @@ int main()
 	tree_node *n = new tree_node(g);
 	int i = 0;
 	//ofstream &out;
-	while (!(g->maxVal() != 2048)) {
+	while (g->maxVal() != 16) {
 		pair<int,char> c = chooseMove(n, i, test);
 		if (c.first == 0) break;
 		if (c.second == ('u')) g->moveUp();
