@@ -29,7 +29,7 @@ pair<double,char> chooseMove( tree_node *t, int m, ostream &out) //m is current 
 	if ( t->root()->iteration == STEPS_AHEAD + m )
 	{
 		cout << "found leaf node!" << endl;
-			//t->root()->print();
+			t->root()->print();
 		//out << "found leaf node!" << endl;
 		return { t->root()->value(), t->root()->dir };
 	}
@@ -42,6 +42,7 @@ pair<double,char> chooseMove( tree_node *t, int m, ostream &out) //m is current 
 		//out << "found ULDR node: " << t->root()->dir << endl;
 		int sum = 0;
 		t->MakeChildrenRand2();
+		//cout << t->children.size() << endl;
 		if ( t->children.size() == 0 )
 			return { 0, t->root()->dir };
 		for ( int i = 0; i < t->children.size(); i++ )
@@ -59,12 +60,13 @@ pair<double,char> chooseMove( tree_node *t, int m, ostream &out) //m is current 
 		double max = 0;
 		int child = 0;
 		t->MakeChildrenUDLR();
+		//cout << t->children.size() << endl;
 		if ( t->children.size() == 0 )
 			return { 0, t->root()->dir };
 		for ( int i = 0; i < t->children.size(); i++ )
 		{
 			pair<double,char> temp = chooseMove( t->children[i], m, out );
-			if ( max < temp.first )
+			if ( max <= temp.first )
 			{
 				max = temp.first;
 				child = i;

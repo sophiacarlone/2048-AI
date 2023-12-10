@@ -13,10 +13,11 @@ void tree_node::MakeChildrenUDLR(){
 	for ( int i = 0; i < 4; i++ ) loc[i] = i;
     //srand(time(NULL));
 
-    for ( int i = 0; i < 4; i++ )
+    for ( int i = 4; i > 0; i-- )
 	{
-		int j = rand() % 4; //+i
-		swap( loc[j], loc[i] );
+		int j = rand() % i; //+i
+		if ( j < i-1 )
+			swap( loc[j], loc[i-1] );
 	}
 
     cout << "make children udlr" << endl;

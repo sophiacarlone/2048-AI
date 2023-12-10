@@ -362,7 +362,7 @@ Grid *Grid::moveDown()
 			// iterate through blocks within the col
 			if ( i+j*4 < 16 )
 			{
-				// if block below is empty, move it left and delete old block
+				// if block below is empty, move it down and delete old block
 				if ( g->blocks[i+j*4].isEmpty )
 				{
 					g->blocks[i+j*4] = Block( g->blocks[i+(j-1)*4].num );
@@ -390,82 +390,89 @@ Grid *Grid::moveDown()
 	return g;
 }
 
-/* finds max index of the grid */
+/* finds max value of the grid */
 int Grid::maxVal() const
+{
+	int n = maxValI();
+	return blocks[n].num;
+}
+
+/* returns index of maxVal */
+int Grid::maxValI() const
 {
 	int n = 0;
 	for ( int i = 1; i < 16; i++ )
 		if ( blocks[n].num < blocks[i].num )
 			n = i;
-	return blocks[n].num;
+	return n;
 }
 
 /* finds value of a grid for IDS */
 double Grid::value() const {
     double q1, q2, q3, q4, sum;
-    int max =  maxVal();
+    int max =  maxValI();
     int n = 0;
     for ( int i = 0; i < 15; i++ ){
         if (blocks[i].num == 0){
             n++;
         }
-        if(i != 3 && i != 7 && i != 11 && i != 15){
-            if(blocks[i].num == blocks[i+1].num && blocks[i].num != 0){
+        if(i % 4 != 3){
+            if((blocks[i].num == blocks[i+1].num) && (blocks[i].num != 0)){
                 n++;
             }
 		}
-        if(i != 3 && i != 7 && i != 11 && i != 15 && i != 2 && i != 6 && i != 10 && i != 14){
-            if(blocks[i].num == blocks[i+2].num && blocks[i].num != 0 && blocks[i+1].num == 0){
+        if( (i % 4 != 3 ) && (i % 4 != 2 )){
+            if((blocks[i].num == blocks[i+2].num) && (blocks[i].num != 0) && (blocks[i+1].num == 0)){
                 n++;
             }
         }
-        if(i == 0 || i == 4 || i == 8 || i == 12){
-            if(blocks[i].num == blocks[i+3].num && blocks[i].num != 0 && blocks[i+1].num == blocks[i+2].num == 0){
+        if(i % 4 == 0){
+            if((blocks[i].num == blocks[i+3].num) && (blocks[i].num != 0) && (blocks[i+1].num == 0) && (blocks[i+2].num == 0)){
                 n++;
             }
         }
         if(i <= 11){
-            if(blocks[i].num == blocks[i+4].num && blocks[i].num != 0){
+            if((blocks[i].num == blocks[i+4].num) && (blocks[i].num != 0)){
                 n++;
             }
         }
         if(i <= 7){
-            if(blocks[i].num == blocks[i+8].num && blocks[i].num != 0 && blocks[i+4].num == 0){
+            if((blocks[i].num == blocks[i+8].num) && (blocks[i].num != 0) && (blocks[i+4].num == 0)){
                 n++;
             }
         }
         if(i <= 3){
-            if(blocks[i].num == blocks[i+12].num && blocks[i].num != 0 && (blocks[i+4].num  == blocks[i+8].num == 0)){
+            if((blocks[i].num == blocks[i+12].num) && (blocks[i].num != 0) && (blocks[i+4].num == 0) && (blocks[i+8].num == 0)){
                 n++;
             }
         }
     }
-	if(max == blocks[0].num || max == blocks[1].num || max == blocks[4].num || max == blocks[5].num){
-        q1 = (4*blocks[0].num + 2*(blocks[1].num + blocks[4].num) + blocks[5].num);
+	if(max == 0){
+        q1 = (4*blocks[0].num + 2*(blocks[1].num + 2*blocks[4].num) + blocks[5].num + blocks[8].num + blocks[2].num);
     }
     else{
-        q1 = .5*(blocks[0].num + blocks[1].num + blocks[4].num + blocks[5].num);
+        q1 = .25*(blocks[0].num + .5*blocks[1].num + .5*blocks[4].num + blocks[5].num);
     }
 
-    if(max == blocks[2].num || max == blocks[3].num || max == blocks[6].num || max == blocks[7].num){
-        q2 = (4*blocks[3].num + 2*(blocks[2].num + blocks[7].num) + blocks[6].num);
+    if(max == 3){
+        q2 = (4*blocks[3].num + 2*(blocks[2].num + 2*blocks[7].num) + blocks[6].num + blocks[11].num + blocks[1].num);
     }
     else{
-        q2 = .5*(blocks[3].num + blocks[2].num + blocks[7].num + blocks[6].num);
+        q2 = .25*(blocks[3].num + .5*blocks[2].num + .5*blocks[7].num + blocks[6].num);
     }
-    if(max == blocks[12].num || max == blocks[13].num || max == blocks[8].num || max == blocks[9].num){
-        q3 = (4*blocks[12].num + 2*(blocks[13].num + blocks[8].num) + blocks[9].num);
-    }
-    else{
-        q3 = .5*(blocks[12].num + blocks[13].num + blocks[8].num + blocks[9].num);
-    }
-    if(max == blocks[10].num || max == blocks[11].num || max == blocks[14].num || max == blocks[15].num){
-        q4 = (4*blocks[15].num + 2*(blocks[14].num + blocks[11].num) + blocks[10].num);
+    if(max == 12){
+        q3 = (4*blocks[12].num + 2*(blocks[13].num + 2*blocks[8].num) + blocks[9].num + blocks[4].num + blocks[14].num);
     }
     else{
-        q4 = .5*(blocks[15].num + blocks[14].num + blocks[11].num + blocks[10].num);
+        q3 = .25*(blocks[12].num + .5*blocks[13].num + .5*blocks[8].num + blocks[9].num);
     }
-    sum = ((n/10)+1)*(q1+q2+q3+q4);
+    if(max == 15){
+        q4 = (4*blocks[15].num + 2*(blocks[14].num + 2*blocks[11].num) + blocks[10].num + blocks[7].num + blocks[13].num);
+    }
+    else{
+        q4 = .25*(blocks[15].num + .5*blocks[14].num + .5*blocks[11].num + blocks[10].num);
+    }
+    sum = ((n/10)+1)*(q1+q2+q3+q4) + score;
     return sum;
 }
 

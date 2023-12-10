@@ -51,7 +51,7 @@ int main()
 		output << g->dir << " " << g->maxVal() << endl;
 		cout << g->dir << " " << g->maxVal() << endl;
 		g->print_to_stream( output );
-		cout << "move" << endl;
+		cout << "move # " << g->iteration/2 << endl;
 		g->print();
 
 		n = new tree_node(g);
