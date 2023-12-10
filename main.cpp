@@ -50,7 +50,7 @@ int main()
 
 		n = new tree_node(g);
 	}
-	if (g->maxVal() == 512)
+	if (g->maxVal() == 1024)
 		cout << "winner winner chicken dinner" << endl;
 	else
 		cout << "you failed, badly"<< endl;

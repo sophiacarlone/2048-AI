@@ -400,10 +400,46 @@ int Grid::maxVal() const
 }
 
 /* finds value of a grid for IDS */
-int Grid::value() const{
-    int q1, q2, q3, q4;
-	int max =  maxVal();
-    if(max == blocks[0].num || max == blocks[1].num || max == blocks[4].num || max == blocks[5].num){
+int Grid::value() const {
+    int q1, q2, q3, q4, sum;
+    int max =  maxVal();
+    int n = 0;
+    for ( int i = 0; i < 15; i++ ){
+        if (blocks[i].num == 0){
+            n++;
+        }
+        if(i != 3 && i != 7 && i != 11 && i != 15){
+            if(blocks[i].num == blocks[i+1].num && blocks[i].num != 0){
+                n++;
+            }
+		}
+        if(i != 3 && i != 7 && i != 11 && i != 15 && i != 2 && i != 6 && i != 10 && i != 14){
+            if(blocks[i].num == blocks[i+2].num && blocks[i].num != 0 && blocks[i+1].num == 0){
+                n++;
+            }
+        }
+        if(i == 0 || i == 4 || i == 8 || i == 12){
+            if(blocks[i].num == blocks[i+3].num && blocks[i].num != 0 && blocks[i+1].num == blocks[i+2].num == 0){
+                n++;
+            }
+        }
+        if(i <= 11){
+            if(blocks[i].num == blocks[i+4].num && blocks[i].num != 0){
+                n++;
+            }
+        }
+        if(i <= 7){
+            if(blocks[i].num == blocks[i+8].num && blocks[i].num != 0 && blocks[i+4].num == 0){
+                n++;
+            }
+        }
+        if(i <= 3){
+            if(blocks[i].num == blocks[i+12].num && blocks[i].num != 0 && (blocks[i+4].num  == blocks[i+8].num == 0)){
+                n++;
+            }
+        }
+    }
+	if(max == blocks[0].num || max == blocks[1].num || max == blocks[4].num || max == blocks[5].num){
         q1 = (4*blocks[0].num + 2*(blocks[1].num + blocks[4].num) + blocks[5].num);
     }
     else{
@@ -428,8 +464,40 @@ int Grid::value() const{
     else{
         q4 = .5*(blocks[15].num + blocks[14].num + blocks[11].num + blocks[10].num);
     }
-	return q1 + q2 + q3 + q4;
+    sum = ((n/10)+1)*(q1+q2+q3+q4);
+    return sum;
 }
+
+// int Grid::value() const{
+//     int q1, q2, q3, q4;
+// 	int max =  maxVal();
+//     if(max == blocks[0].num || max == blocks[1].num || max == blocks[4].num || max == blocks[5].num){
+//         q1 = (4*blocks[0].num + 2*(blocks[1].num + blocks[4].num) + blocks[5].num);
+//     }
+//     else{
+//         q1 = .5*(blocks[0].num + blocks[1].num + blocks[4].num + blocks[5].num);
+//     }
+
+//     if(max == blocks[2].num || max == blocks[3].num || max == blocks[6].num || max == blocks[7].num){
+//         q2 = (4*blocks[3].num + 2*(blocks[2].num + blocks[7].num) + blocks[6].num);
+//     }
+//     else{
+//         q2 = .5*(blocks[3].num + blocks[2].num + blocks[7].num + blocks[6].num);
+//     }
+//     if(max == blocks[12].num || max == blocks[13].num || max == blocks[8].num || max == blocks[9].num){
+//         q3 = (4*blocks[12].num + 2*(blocks[13].num + blocks[8].num) + blocks[9].num);
+//     }
+//     else{
+//         q3 = .5*(blocks[12].num + blocks[13].num + blocks[8].num + blocks[9].num);
+//     }
+//     if(max == blocks[10].num || max == blocks[11].num || max == blocks[14].num || max == blocks[15].num){
+//         q4 = (4*blocks[15].num + 2*(blocks[14].num + blocks[11].num) + blocks[10].num);
+//     }
+//     else{
+//         q4 = .5*(blocks[15].num + blocks[14].num + blocks[11].num + blocks[10].num);
+//     }
+// 	return q1 + q2 + q3 + q4;
+// }
 // int Grid::value() const
 // {
 //     return 2*(blocks[0].num + blocks[3].num + blocks[12].num + blocks[15].num) + blocks[1].num + blocks[2].num + blocks[4].num
