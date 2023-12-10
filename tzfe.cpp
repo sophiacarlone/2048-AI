@@ -63,7 +63,7 @@ bool operator!=( Block const &b1, Block const &b2 )
 /* default constructor */
 Grid::Grid()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 	for ( int i = 0; i < 16; i++ )
 		blocks[i] = Block();
 
@@ -108,13 +108,19 @@ void Grid::addBlock( )
 	for ( int i = 0; i < 4; i++ )
 		loc[i] = i;
 
-	srand(time(NULL));
+	//srand(time(NULL));
 
 	for ( int i = 0; i < 4; i++ )
 	{
 		int j = rand() % 4; //+i
 		swap( loc[j], loc[i] );
 	}
+
+	//THIS IS CREATING ARRAYS WITH MULTIPLE INSTANCES OF A NUMBER!!
+
+	cout << "add block" << endl;
+	for ( int i = 0; i < 4; i++ ) cout << loc[i] << " ";
+    cout << endl;
 
 	if ( d == 'l' )
 		for ( int i = 0; i < 4; i++ )

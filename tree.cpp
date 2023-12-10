@@ -9,14 +9,38 @@ void tree_node::MakeTree(bool udlr){
 
 /* make ULDR children for tree nodes */
 void tree_node::MakeChildrenUDLR(){
-    if(root_node->moveLeft() != NULL)
-        children.push_back(new tree_node(root_node->moveLeft()));
-    if(root_node->moveRight() != NULL)
-        children.push_back(new tree_node(root_node->moveRight()));
-    if(root_node->moveUp() != NULL)
-        children.push_back(new tree_node(root_node->moveUp()));
-    if(root_node->moveDown() != NULL)
-        children.push_back(new tree_node(root_node->moveDown()));
+    int loc[4];
+	for ( int i = 0; i < 4; i++ ) loc[i] = i;
+    //srand(time(NULL));
+
+    for ( int i = 0; i < 4; i++ )
+	{
+		int j = rand() % 4; //+i
+		swap( loc[j], loc[i] );
+	}
+
+    cout << "make children udlr" << endl;
+    for ( int i = 0; i < 4; i++ ) cout << loc[i] << " ";
+    cout << endl;
+
+    for(int i = 0; i < 4; i++){
+        if( i == 0 ){
+            if(root_node->moveLeft() != NULL)
+                children.push_back(new tree_node(root_node->moveLeft()));
+        }
+        else if(i == 1){
+            if(root_node->moveRight() != NULL)
+                children.push_back(new tree_node(root_node->moveRight()));
+        }
+        else if( i == 2 ){
+            if(root_node->moveUp() != NULL)
+                children.push_back(new tree_node(root_node->moveUp()));
+        }
+        else if(i ==3){
+           if(root_node->moveDown() != NULL)
+                children.push_back(new tree_node(root_node->moveDown()));
+        }
+    }
 }
 
 /* make addBlock children for tree nodes */

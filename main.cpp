@@ -7,6 +7,8 @@ using namespace std;
 
 int main()
 {
+	srand(time(NULL));
+
 	ofstream output;
 	output.open( "ai.output" );
 	ofstream print;
@@ -27,6 +29,7 @@ int main()
 	tree_node *n = new tree_node(g);
 	//ofstream &out;
 	while (g->maxVal() != 512) {
+
 		pair<int,char> c = chooseMove(n, g->iteration, output);
 		if (c.first == 0) break;
 		if (c.second == ('u')) g = g->moveUp();

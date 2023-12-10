@@ -3,9 +3,11 @@
 
 #include<iostream>
 #include<vector>
+#include <time.h>
+#include <stdlib.h>
 #include"grid.h"
 
-#define STEPS_AHEAD 2 //how many steps ahead are we looking
+#define STEPS_AHEAD 8 //how many steps ahead are we looking
 
 class tree_node{
     private:
