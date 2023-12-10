@@ -5,7 +5,7 @@
 #include<vector>
 #include"grid.h"
 
-#define STEPS_AHEAD 10 //how many steps ahead are we looking
+#define STEPS_AHEAD 2 //how many steps ahead are we looking
 
 class tree_node{
     private:

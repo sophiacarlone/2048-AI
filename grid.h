@@ -60,7 +60,7 @@ class Grid
 	int value() const;
 
 	// return index of maxval
-	int maxVal();
+	int maxVal()const;
 
 	// print function
 	void print_to_stream( std::ostream & );

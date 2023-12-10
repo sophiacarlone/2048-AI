@@ -384,7 +384,7 @@ Grid *Grid::moveDown()
 }
 
 /* finds max index of the grid */
-int Grid::maxVal()
+int Grid::maxVal() const
 {
 	int n = 0;
 	for ( int i = 1; i < 16; i++ )
@@ -394,33 +394,35 @@ int Grid::maxVal()
 }
 
 /* finds value of a grid for IDS */
-int Grid::value(){
+int Grid::value() const{
     int q1, q2, q3, q4;
-    if(blocks.max == blocks[0].num | blocks.max == blocks[1].num | blocks.max == blocks[4].num | blocks.max == blocks[5].num){
+	int max =  maxVal();
+    if(max == blocks[0].num || max == blocks[1].num || max == blocks[4].num || max == blocks[5].num){
         q1 = (4*blocks[0].num + 2*(blocks[1].num + blocks[4].num) + blocks[5].num);
     }
     else{
         q1 = .5*(blocks[0].num + blocks[1].num + blocks[4].num + blocks[5].num);
     }
 
-    if(blocks.max == blocks[2].num | blocks.max == blocks[3].num | blocks.max == blocks[6].num | blocks.max == blocks[7].num){
+    if(max == blocks[2].num || max == blocks[3].num || max == blocks[6].num || max == blocks[7].num){
         q2 = (4*blocks[3].num + 2*(blocks[2].num + blocks[7].num) + blocks[6].num);
     }
     else{
         q2 = .5*(blocks[3].num + blocks[2].num + blocks[7].num + blocks[6].num);
     }
-    if(blocks.max == blocks[12].num | blocks.max == blocks[13].num | blocks.max == blocks[8].num | blocks.max == blocks[9].num){
+    if(max == blocks[12].num || max == blocks[13].num || max == blocks[8].num || max == blocks[9].num){
         q3 = (4*blocks[12].num + 2*(blocks[13].num + blocks[8].num) + blocks[9].num);
     }
     else{
         q3 = .5*(blocks[12].num + blocks[13].num + blocks[8].num + blocks[9].num);
     }
-    if(blocks.max == blocks[10].num | blocks.max == blocks[11].num | blocks.max == blocks[14].num | blocks.max == blocks[15].num){
+    if(max == blocks[10].num || max == blocks[11].num || max == blocks[14].num || max == blocks[15].num){
         q4 = (4*blocks[15].num + 2*(blocks[14].num + blocks[11].num) + blocks[10].num);
     }
     else{
         q4 = .5*(blocks[15].num + blocks[14].num + blocks[11].num + blocks[10].num);
     }
+	return q1 + q2 + q3 + q4;
 }
 // int Grid::value() const
 // {
