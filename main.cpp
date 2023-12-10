@@ -30,7 +30,7 @@ int main()
 	//ofstream &out;
 	while (g->maxVal() != 512) {
 
-		pair<int,char> c = chooseMove(n, g->iteration, output);
+		pair<double,char> c = chooseMove(n, g->iteration, output);
 		if (c.first == 0) break;
 		if (c.second == ('u')) g = g->moveUp();
 		else if (c.second == ('l')) g = g->moveLeft();

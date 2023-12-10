@@ -400,8 +400,8 @@ int Grid::maxVal() const
 }
 
 /* finds value of a grid for IDS */
-int Grid::value() const {
-    int q1, q2, q3, q4, sum;
+double Grid::value() const {
+    double q1, q2, q3, q4, sum;
     int max =  maxVal();
     int n = 0;
     for ( int i = 0; i < 15; i++ ){

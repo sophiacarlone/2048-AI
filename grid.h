@@ -57,7 +57,7 @@ class Grid
 	Grid *moveDown();
 
 	// value for IDS
-	int value() const;
+	double value() const;
 
 	// return index of maxval
 	int maxVal()const;

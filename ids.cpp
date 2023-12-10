@@ -14,7 +14,7 @@ void ai2048()
 }
 
 /* returns integer value for choosing next best move for AI */
-pair<int,char> chooseMove( tree_node *t, int m, ostream &out) //m is current interation
+pair<double,char> chooseMove( tree_node *t, int m, ostream &out) //m is current interation
 {
 	// how u do this
 	if ( t == NULL )
@@ -56,14 +56,14 @@ pair<int,char> chooseMove( tree_node *t, int m, ostream &out) //m is current int
 		cout << "found addBlock node" << endl;
 			// t->root()->print();
 		//out << "found addBlock node" << endl;
-		int max = 0;
+		double max = 0;
 		int child = 0;
 		t->MakeChildrenUDLR();
 		if ( t->children.size() == 0 )
 			return { 0, t->root()->dir };
 		for ( int i = 0; i < t->children.size(); i++ )
 		{
-			pair<int,char> temp = chooseMove( t->children[i], m, out );
+			pair<double,char> temp = chooseMove( t->children[i], m, out );
 			if ( max < temp.first )
 			{
 				max = temp.first;

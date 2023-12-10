@@ -7,6 +7,6 @@
 using namespace std;
 
 void ai2048();
-pair<int,char> chooseMove( tree_node *, int, ostream & );
+pair<double,char> chooseMove( tree_node *, int, ostream & );
 
 #endif
