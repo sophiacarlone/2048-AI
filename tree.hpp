@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include"grid.h"
 
-#define STEPS_AHEAD 8 //how many steps ahead are we looking
+#define STEPS_AHEAD 4 //how many steps ahead are we looking
 
 class tree_node{
     private:
